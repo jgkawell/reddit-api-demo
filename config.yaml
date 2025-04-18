@@ -1,0 +1,18 @@
+service:
+  name: reddit-stats
+  domain: demo
+  env: local
+  logging:
+    level: info
+
+  network:
+    bind_address: localhost
+    bind_port: 8080
+
+reddit:
+  accessToken: ""
+  subreddits:
+    - name: funny
+      start: ""
+    # - name: homelab
+    #   start: ""
