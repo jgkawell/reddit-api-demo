@@ -2,7 +2,6 @@ package handler
 
 import (
 	"encoding/json"
-	"io"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -49,7 +48,7 @@ func (h *handler) statsHandler(w http.ResponseWriter, r *http.Request) {
 	params, err := url.ParseQuery(r.URL.RawQuery)
 	if err != nil {
 		h.logger.WithError(err).Error("failed to parse query params")
-		io.WriteString(w, err.Error())
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
@@ -62,7 +61,7 @@ func (h *handler) statsHandler(w http.ResponseWriter, r *http.Request) {
 	links, users, err := h.controller.Stats(ctx, params.Get("sub"), limit)
 	if err != nil {
 		h.logger.WithError(err).Error("failed to collect stats")
-		io.WriteString(w, err.Error())
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
